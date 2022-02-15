@@ -4,14 +4,29 @@ const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
 const router = require('./router/routes');
+const fileUpload = require("express-fileupload");
 
 const PORT = process.env.PORT || 5000;
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+    methods:['GET', 'PUT', 'POST'],
+    allowedHeaders:['Content-Type', 'Origin', 'X-Request-Type']
+   /* exposedHeaders: ["set-cookie"],*/
+}));
+
 app.use(express.json());
-app.use('/api', router);
 app.use(express.static(path.resolve(__dirname, 'static')));
+app.use(fileUpload({}));
+
+app.use('/api', router);
+
+/*app.get('*', (req, res) =>{
+    res.sendfile(path.resolve(__dirname + "./static/index.html"));
+});*/
+
 
 const start = async () => {
     try {

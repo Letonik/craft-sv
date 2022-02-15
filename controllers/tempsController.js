@@ -4,17 +4,18 @@ const TemplatesModel = require('../models/templates');
 class TempsController {
     async createNew(req, res) {
         try {
-            const {name} = req.body;
-            const location = await LocationModel.findOne({ _id: '620979ca2cce88fddc6248d1' });
-            const check = await location.temps.findOne({name});
+            const {code, name, descHtml, tabletHtml, phoneHtml} = req.body;
+            const location = await LocationModel.findOne({code});
+            /*const check = await location.temps.findOne({name});
             if (check) {
                 throw new Error('Такой шаблон уже существует')
-            }
-            const temp = new TemplatesModel({name})
+            }*/
+            const temp = new TemplatesModel({name, descHtml, tabletHtml, phoneHtml})
             location.temps.push(temp);
             location.markModified('temps');
             await location.save()
-            return res.json('Шаблон успешно добавлен');
+            const locations = await LocationModel.find();
+            return res.json(locations);
         } catch (e) {
             console.log(e)
         }

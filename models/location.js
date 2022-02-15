@@ -3,6 +3,7 @@ const TemplateSchema = require("./templates.js").schema;
 
 const LocationSchema = new Schema({
     name: {type: String, unique: true, required: true},
+    code: { type: String, unique: true, required: true},
     image: {type: String},
     temps: [TemplateSchema]
 })
