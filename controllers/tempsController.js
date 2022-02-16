@@ -6,10 +6,6 @@ class TempsController {
         try {
             const {code, name} = req.body;
             const location = await LocationModel.findOne({code});
-            /*const check = await location.temps.findOne({name});
-            if (check) {
-                throw new Error('Такой шаблон уже существует')
-            }*/
             const temp = new TemplatesModel({name})
             location.temps.push(temp);
             location.markModified('temps');
@@ -35,14 +31,38 @@ class TempsController {
             for (let i of location.temps) {
                 if (i._id == id) {
                     i.active = true
+                    location.markModified('temps');
+                    await location.save()
+                    break
                 }
             }
-            location.markModified('temps');
-            await location.save()
-     /*       await location.temps.findOneAndUpdate({active: true}, {active: false})
-            await location.temps.findOneAndUpdate({_id: id}, {active: true})*/
             const locations = await LocationModel.find();
             return res.json(locations);
+        } catch (e) {
+            console.log(e)
+        }
+    }
+    async saveCode(req, res) {
+        try {
+            const {code, id, html, device} = req.body;
+            const location = await LocationModel.findOne({code});
+            for (let i of location.temps) {
+                if (i._id == id) {
+                    if (device === 'desktop') {
+                        i.deskHtml = html
+                    }
+                    if (device === 'tablet') {
+                        i.tabletHtml = html
+                    }
+                    if (device === 'phone') {
+                        i.phoneHtml = html
+                    }
+                    location.markModified('temps');
+                    await location.save()
+                    break
+                }
+            }
+            return res.json('Ok');
         } catch (e) {
             console.log(e)
         }
