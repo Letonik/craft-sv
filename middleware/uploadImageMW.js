@@ -1,6 +1,4 @@
-const Router = require('express');
-const router = new Router();
-const editController = require('../controllers/editController');
+/*
 const multer = require('multer');
 
 const ALLOWED_FORMATS = ['image/jpeg', 'image/png', 'image/jpg'];
@@ -25,8 +23,4 @@ const singleUploadCtrl = (req, res, next) => {
     }
     next();
   })
-}
-
-router.post('/add-image', singleUploadCtrl, editController.addImage);
-
-module.exports = router;
+}*/

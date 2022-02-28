@@ -10,10 +10,10 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 
 app.use(cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-    methods:['GET', 'PUT', 'POST'],
-    allowedHeaders:['Content-Type', 'Origin', 'X-Request-Type']
+    origin: 'http://localhost:3001',
+/*    credentials: true,
+    methods:['GET', 'PUT', 'POST'],*/
+    optionsSuccessStatus: 200
    /* exposedHeaders: ["set-cookie"],*/
 }));
 
